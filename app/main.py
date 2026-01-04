@@ -1,10 +1,12 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 
 from app.config import SUPPORTED_ASSETS
 from app.models.loader import model_registry
 from app.services.prediction import generate_signal
+
 
 
 class PredictRequest(BaseModel):
@@ -24,6 +26,14 @@ app = FastAPI(
     title="SignalGPT Backend",
     description="Lightweight financial signal prediction chatbot (research prototype).",
     version="0.1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
